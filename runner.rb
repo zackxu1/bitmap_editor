@@ -1,3 +1,3 @@
 require './app/bitmap_editor'
 
-BitmapEditor.new.run
+BitmapEditor.new.run ARGV.first
