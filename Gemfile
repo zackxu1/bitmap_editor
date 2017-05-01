@@ -1,4 +1,11 @@
 source 'https://rubygems.org'
 
 ruby '2.3.3'
-gem 'rspec'
+
+group :test do
+  gem 'rspec'
+end
+
+group :development do
+  gem 'pry-byebug'
+end
