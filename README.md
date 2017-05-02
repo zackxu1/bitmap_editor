@@ -1,7 +1,15 @@
-# Bitmap editor
+# Install gems
 
-..
+`bundle`
 
-# Running
+# Run unit tests
 
-`>bin/bitmap_editor examples/show.txt`
+`bundle exec rspec`
+
+# Run with input files
+
+```
+bin/bitmap_editor examples/valid_commands.txt
+bin/bitmap_editor examples/invalid_bitmap_init.txt
+etc.
+```
