@@ -87,6 +87,22 @@ RSpec.describe Bitmap do
         expect(matrix.to_s).to eq initial_state
       end
     end
+
+    describe '#bucket_fill' do
+      it 'fills area of the same colour with another colour' do
+        matrix.update_row('Z', row: 2, col1: 1, col2: 2)
+        matrix.update_col('Z', col: 3, row1: 3, row2: 6)
+        matrix.bucket_fill('X', row: 1, col: 1)
+        expect(matrix.to_s).to eq <<~EOS
+          XXXX
+          ZZXX
+          OOZX
+          OOZX
+          OOZX
+          OOZX
+        EOS
+      end
+    end
   end
 
   context 'invalid input' do
