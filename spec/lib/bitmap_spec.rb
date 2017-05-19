@@ -87,6 +87,41 @@ RSpec.describe Bitmap do
         expect(matrix.to_s).to eq initial_state
       end
     end
+
+    describe '#bucket_fill' do
+      context 'when bitmap is blank' do
+        it 'fills up the whole bitmap' do
+          matrix.bucket_fill('Z', col: 4, row: 2)
+          expect(matrix.to_s).to eq <<~EOS
+            ZZZZ
+            ZZZZ
+            ZZZZ
+            ZZZZ
+            ZZZZ
+            ZZZZ
+          EOS
+        end
+      end
+
+      context 'when bitmap is not blank' do
+        before do
+          matrix.update_row('Z', row: 2, col1: 1, col2: 2)
+          matrix.update_col('Z', col: 3, row1: 3, row2: 6)
+        end
+
+        it 'fills up the neighbouring cells given a starting cell' do
+          matrix.bucket_fill('X', col: 1, row: 1)
+          expect(matrix.to_s).to eq <<~EOS
+            XXXX
+            ZZXX
+            OOZX
+            OOZX
+            OOZX
+            OOZX
+          EOS
+        end
+      end
+    end
   end
 
   context 'invalid input' do

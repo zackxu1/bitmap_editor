@@ -47,6 +47,15 @@ class Bitmap
     @data * "\n" + "\n"
   end
 
+  def bucket_fill(value, col:, row:)
+    validate_value(value)
+    return unless cell_value(row: row, col: col) == WHITE
+    update_cell(value, row: row, col: col)
+    neighbouring_cells(row: row, col: col).each do |cell|
+      bucket_fill(value, row: cell[:row], col: cell[:col])
+    end
+  end
+
   private
 
   def row
@@ -80,5 +89,29 @@ class Bitmap
     end
     indices.map! { |i| i - 1 }
     indices.size > 1 ? indices : indices.first
+  end
+
+  def cell_value(row:, col:)
+    row, col = validate_row(row), validate_col(col)
+    @data[row][col]
+  end
+
+  def neighbouring_cells(row:, col:)
+    four_neighbouring_cells(row: row, col: col).select do |cell|
+      valid_cell?(cell)
+    end
+  end
+
+  def four_neighbouring_cells(row:, col:)
+    [
+      { row: row - 1, col: col },
+      { row: row + 1, col: col },
+      { row: row,     col: col - 1 },
+      { row: row,     col: col + 1 }
+    ]
+  end
+
+  def valid_cell?(cell)
+    (1..col_size).cover?(cell[:row]) && (1..row_size).cover?(cell[:col])
   end
 end
